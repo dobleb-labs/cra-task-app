@@ -12,6 +12,7 @@ interface Props {
   fullwidth?: boolean
   onClick?: () => void
   variant?: keyof typeof VARIANTS_STYLES
+  disabled?: boolean
 }
 
 export default function Button({
@@ -19,17 +20,20 @@ export default function Button({
   type = 'button',
   fullwidth = false,
   onClick,
-  variant = 'solid'
+  variant = 'solid',
+  disabled
 }: Props) {
   return (
     <button
       className={clsx(
         VARIANTS_STYLES[variant] || VARIANTS_STYLES.solid,
         'transition text-white rounded px-4 py-2',
-        fullwidth && 'w-full block'
+        fullwidth && 'w-full block',
+        disabled && 'opacity-50 cursor-not-allowed'
       )}
       type={type}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>

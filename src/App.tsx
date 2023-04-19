@@ -1,11 +1,16 @@
+import { Toaster } from 'react-hot-toast'
+import Router from './Router'
 import BaseLayout from './components/layout/BaseLayout'
-import { TaskApp } from './components/screens'
+import { AuthProvider } from './components/context/AuthContext'
 
 function App() {
   return (
-    <BaseLayout>
-      <TaskApp />
-    </BaseLayout>
+    <AuthProvider>
+      <BaseLayout>
+        <Router />
+      </BaseLayout>
+      <Toaster />
+    </AuthProvider>
   )
 }
 

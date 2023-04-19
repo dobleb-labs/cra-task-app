@@ -20,7 +20,7 @@
     //   "@/*": ["./src/*"]
     // },
     "typeRoots": ["./node_modules/@types"],
-    "types": ["jest"]
+    "types": ["jest", "node"]
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"],
   "exclude": ["node_modules"]

@@ -3,17 +3,17 @@ import EmptyTaskList from './EmptyTaskList'
 import TaskItem from './TaskItem'
 
 interface Props {
-  tasks: Task[]
-  onTaskRemove: (id: string) => void
+  tasks?: Task[]
+  onTaskRemove: () => void
 }
 
 export default function TaskList({ tasks, onTaskRemove }: Props) {
   return (
-    <section className="mt-4">
+    <section className="my-4">
       <h2 className="text-xl mb-2">
         Mis tareas
       </h2>
-      {!tasks.length ? (
+      {!tasks?.length ? (
         <EmptyTaskList />
       ) : (
         <ul className="space-y-4">
@@ -22,7 +22,7 @@ export default function TaskList({ tasks, onTaskRemove }: Props) {
               key={task.id}
               id={task.id}
               title={task.title}
-              body={task.body}
+              body={task.description}
               onRemove={onTaskRemove}
             />
           ))}
