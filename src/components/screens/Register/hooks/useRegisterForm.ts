@@ -35,13 +35,12 @@ export default function useRegisterForm() {
 
   const handleFormSubmit = handleSubmit(async data => {
     try {
-      const responseBody = await getAuthService().register({
+      await getAuthService().register({
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
         password: data.password
       })
-      console.log(responseBody)
       toast.success('Register Succesful')
     } catch (error) {
       const axiosError = error as AxiosError
