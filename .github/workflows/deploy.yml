@@ -1,0 +1,37 @@
+name: Deploy App to Static Folder
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - name: Install dependencies 🔧
+        run: yarn ci
+      - name: Build 🔨
+        run: yarn build
+      - name: Prepare for deploy 🚀
+        run: |
+          eval $(ssh-agent -s)
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          tar cfz build.tgz build/*
+      - name: Deploy 🚀
+        run: |
+          scp build.tgz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/build.tgz
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/ && sudo tar xfz build.tgz -C /var/www'
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd /var/www/ && sudo rm -rf ${{ secrets.APP_NAME }}-BKP && sudo cp -r ${{ secrets.APP_NAME }} ${{ secrets.APP_NAME }}-BKP && sudo mv build ${{ secrets.APP_NAME }}' 
+      - name: Cleanup 🧹
+        run: |
+          rm -rf build.tgz
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/ && rm -rf build.tgz'
