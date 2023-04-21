@@ -30,7 +30,7 @@ jobs:
         run: |
           scp build.tgz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/build.tgz
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/ && sudo tar xfz build.tgz -C /var/www'
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd /var/www/ && sudo rm -rf ${{ secrets.APP_NAME }}-BKP && sudo cp -r ${{ secrets.APP_NAME }} ${{ secrets.APP_NAME }}-BKP && sudo mv build ${{ secrets.APP_NAME }}' 
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd /var/www/ && sudo rm -rf ${{ secrets.APP_NAME }}-BKP && sudo mv ${{ secrets.APP_NAME }} ${{ secrets.APP_NAME }}-BKP && sudo mv build ${{ secrets.APP_NAME }}' 
       - name: Cleanup 🧹
         run: |
           rm -rf build.tgz
