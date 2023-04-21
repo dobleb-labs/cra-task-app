@@ -1,6 +1,6 @@
 {
   "name": "task-app-react",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "2.9.11",
@@ -40,6 +40,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "ci": "yarn --frozen-lockfile",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "precommit": "yarn lint",
