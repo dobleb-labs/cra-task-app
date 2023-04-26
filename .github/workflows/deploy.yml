@@ -1,8 +1,10 @@
 name: Deploy App to Static Folder
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - main
+    # tags:
+    #   - v*
 
 jobs:
   build:
@@ -17,7 +19,7 @@ jobs:
       - name: Install dependencies 🔧
         run: yarn ci
       - name: Build 🔨
-        run: REACT_APP_API_BASE_URL="${{ env.REACT_APP_API_BASE_URL }}" yarn build
+        run: REACT_APP_API_BASE_URL="${{ vars.REACT_APP_API_BASE_URL }}" yarn build
       - name: Prepare for deploy 🚀
         run: |
           eval $(ssh-agent -s)
