@@ -1,12 +1,15 @@
-name: Deploy App to Static Folder
+name: Deploy Develop App to Static Folder
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: develop
+      url: https://dev.dobleb.cf
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -30,7 +33,7 @@ jobs:
         run: |
           scp build.tgz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/build.tgz
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/ && sudo tar xfz build.tgz -C /var/www'
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd /var/www/ && sudo rm -rf ${{ secrets.APP_NAME }}-BKP && sudo mv ${{ secrets.APP_NAME }} ${{ secrets.APP_NAME }}-BKP && sudo mv build ${{ secrets.APP_NAME }}' 
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd /var/www/ && sudo rm -rf ${{ vars.APP_NAME }}-BKP && sudo mv ${{ vars.APP_NAME }} ${{ vars.APP_NAME }}-BKP && sudo mv build ${{ vars.APP_NAME }}' 
       - name: Cleanup 🧹
         run: |
           rm -rf build.tgz
