@@ -11,7 +11,9 @@ const schema = Yup.object({
   email: Yup.string().email('Invalid email').required('Email is required'),
   firstName: Yup.string().required('First name is required'),
   lastName: Yup.string().required('Last name is required'),
-  password: Yup.string().required('Password is required'),
+  password: Yup.string()
+    .min(6)
+    .required('Password is required'),
   passwordConfirm: Yup
     .string()
     .oneOf([Yup.ref('password'), ''], 'Passwords must match')
